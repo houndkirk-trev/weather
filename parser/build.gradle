@@ -1,0 +1,58 @@
+
+plugins {
+    id 'java'
+}
+
+group = 'com.github.houndkirk'
+version = '1.0'
+
+repositories {
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':common')
+
+    // Use JUnit Jupiter, Hamcrest and Mockito for testing.
+    testImplementation libs.junit.jupiter
+    testImplementation libs.hamcrest
+    testImplementation libs.mockito.core
+    testImplementation libs.mockito.junit
+
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation libs.commons.lang3
+    implementation libs.sods
+    implementation libs.gson
+
+    // Logging
+//    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.24.3'
+//    implementation 'com.amazonaws:aws-lambda-java-log4j2:1.5.1'
+    // AWS SDK and libraries
+    implementation libs.aws.lambda.events
+    implementation libs.aws.lambda.core
+    implementation libs.awssdk.sqs
+    implementation libs.awssdk.s3
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
+}
+
+tasks.register('buildZip', Zip) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtimeClasspath
+    }
+}
+
+build.dependsOn buildZip
