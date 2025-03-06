@@ -12,6 +12,9 @@ plugins {
 
 rootProject.name = 'weather'
 include 'parser'
-include 'db'
 include 'common'
+include 'dbloader'
+include 'dbreader'
+include 'db'
+include 'client'
 

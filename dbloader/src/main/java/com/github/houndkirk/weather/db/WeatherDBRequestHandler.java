@@ -4,11 +4,11 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import com.amazonaws.services.lambda.runtime.logging.LogLevel;
-import com.github.houndkirk.weather.db.impl.DynamoDBHandler;
-import com.github.houndkirk.weather.parser.weather.MonthWeather;
+import com.github.houndkirk.weather.common.MonthWeather;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -23,8 +23,10 @@ public class WeatherDBRequestHandler implements RequestHandler<SQSEvent, String>
                                                                  new TypeToken<List<MonthWeather>>() {}.getType());
             context.getLogger().log("Processing weather data for " + weatherData.size() + " months");
             if (!weatherData.isEmpty()) {
-                try (WeatherDBIf dbHandler = new DynamoDBHandler()) {
+                try (WeatherDB dbHandler = WeatherDBFactory.getWeatherDB()) {
                     dbHandler.saveWeatherData(weatherData);
+                } catch (IOException e) {
+                    context.getLogger().log("Unexpected issue closing database: " + e.getMessage(), LogLevel.ERROR);
                 }
             }
         }

@@ -1,6 +1,6 @@
 package com.github.houndkirk.weather.db.utils;
 
-import com.github.houndkirk.weather.parser.weather.MonthWeather;
+import com.github.houndkirk.weather.common.MonthWeather;
 
 import java.util.ArrayList;
 import java.util.List;

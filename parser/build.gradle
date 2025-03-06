@@ -3,8 +3,8 @@ plugins {
     id 'java'
 }
 
-group = 'com.github.houndkirk'
-version = '1.0'
+group = 'com.github.houndkirk.weather'
+version = '0.9'
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -26,9 +26,6 @@ dependencies {
     implementation libs.sods
     implementation libs.gson
 
-    // Logging
-//    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.24.3'
-//    implementation 'com.amazonaws:aws-lambda-java-log4j2:1.5.1'
     // AWS SDK and libraries
     implementation libs.aws.lambda.events
     implementation libs.aws.lambda.core

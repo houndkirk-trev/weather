@@ -2,8 +2,8 @@ plugins {
     id 'java'
 }
 
-group = 'com.github.houndkirk'
-version = '1.0'
+group = 'com.github.houndkirk.weather'
+version = '0.9'
 
 repositories {
     mavenCentral()
@@ -12,20 +12,15 @@ repositories {
 dependencies {
     implementation project(':common')
 
-    // Use JUnit Jupiter and Hamcrest for testing.
-    testImplementation libs.junit.jupiter
-    testImplementation libs.hamcrest
-
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-    implementation libs.gson
-
     // AWS SDK and libraries
+    implementation libs.aws.lambda.core
     implementation libs.awssdk.dynamodb
     implementation libs.awssdk.dynamodb.enhanced
-    implementation libs.awssdk.sqs
-    implementation libs.aws.lambda.core
-    implementation libs.aws.lambda.events
+
+    // Test libraries
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation libs.junit.jupiter
+    testImplementation libs.hamcrest
 }
 
 java {
@@ -34,17 +29,6 @@ java {
     }
 }
 
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
+test {
     useJUnitPlatform()
 }
-
-tasks.register('buildZip', Zip) {
-    from compileJava
-    from processResources
-    into('lib') {
-        from configurations.runtimeClasspath
-    }
-}
-
-build.dependsOn buildZip

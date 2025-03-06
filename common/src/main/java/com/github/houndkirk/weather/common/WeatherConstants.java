@@ -1,4 +1,4 @@
-package com.github.houndkirk.weather.parser.weather;
+package com.github.houndkirk.weather.common;
 
 public final class WeatherConstants {
 

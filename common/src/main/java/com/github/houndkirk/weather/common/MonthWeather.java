@@ -1,4 +1,4 @@
-package com.github.houndkirk.weather.parser.weather;
+package com.github.houndkirk.weather.common;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

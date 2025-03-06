@@ -13,9 +13,35 @@
   }
 }
 
+.Weather-header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  padding-bottom: 5vh;
+}
+
+.Weather-logo {
+  background-color: white;
+  height: 10vw;
+  padding: 2vmin 3vw 2vmin 5vw;
+}
+
+.Header-text {
+  color: #777777;
+  background-color: white;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 2vh;
+  padding-left: 10vw;
+  font-family: 'Electrolize', sans-serif;
+  font-weight: 300;
+}
+
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  /*min-height: 100vh;*/
   display: flex;
   flex-direction: column;
   align-items: center;

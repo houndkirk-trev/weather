@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.github.houndkirk.weather'
+version = '0.9'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':common')
+    implementation project(':db')
+
+    // Use JUnit Jupiter and Hamcrest for testing.
+    testImplementation libs.junit.jupiter
+    testImplementation libs.hamcrest
+
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation libs.gson
+
+    // AWS SDK and libraries
+    implementation libs.awssdk.sqs
+    implementation libs.aws.lambda.core
+    implementation libs.aws.lambda.events
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
+}
+
+tasks.register('buildZip', Zip) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtimeClasspath
+    }
+}
+
+build.dependsOn buildZip

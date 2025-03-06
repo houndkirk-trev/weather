@@ -1,0 +1,7 @@
+
+tasks.register('buildZip', Zip) {
+    archiveFileName = "client.zip"
+    destinationDirectory = file("${rootDir}/build/")
+    into ('node_modules', { from 'node_modules' })
+    into ('src', { from 'src' })
+}

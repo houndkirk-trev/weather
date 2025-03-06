@@ -1,8 +1,8 @@
 package com.github.houndkirk.weather.db;
 
+import com.github.houndkirk.weather.common.MonthWeather;
 import com.github.houndkirk.weather.db.impl.DynamoDBHandler;
 import com.github.houndkirk.weather.db.utils.TestUtils;
-import com.github.houndkirk.weather.parser.weather.MonthWeather;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
@@ -10,6 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
 
 /*
  * Integration test for the Dynamo DB handler class.
@@ -36,16 +39,17 @@ public class DynamoDBHandlerIT {
         List<MonthWeather> sampleYearWeather = TestUtils.createExpectedResults2024();
         classUnderTest.saveWeatherData(sampleYearWeather);
         List<MonthWeather> savedYearWeather = classUnderTest.readDataForYear(TestUtils.YEAR);
-        MatcherAssert.assertThat(savedYearWeather, Matchers.hasSize(12));
-        sampleYearWeather.forEach(w -> MatcherAssert.assertThat(savedYearWeather, Matchers.hasItem(w)));
+        MatcherAssert.assertThat(savedYearWeather, hasSize(12));
+        sampleYearWeather.forEach(w -> MatcherAssert.assertThat(savedYearWeather, hasItem(w)));
     }
 
     @Test
     void canWriteDataToTableAndReadOneMonthForAYear() {
         List<MonthWeather> sampleYearWeather = TestUtils.createExpectedResults2024();
         classUnderTest.saveWeatherData(sampleYearWeather);
-        MonthWeather savedMonthWeather = classUnderTest.readDataForMonthAndYear(TestUtils.YEAR, 0);
-        MatcherAssert.assertThat(savedMonthWeather, Matchers.is(sampleYearWeather.getFirst()));
+        List<MonthWeather> savedMonthWeather = classUnderTest.readDataForMonthAndYear(TestUtils.YEAR, 0);
+        MatcherAssert.assertThat(savedMonthWeather, hasSize(2));
+        MatcherAssert.assertThat(savedMonthWeather, hasItem(sampleYearWeather.getFirst()));
     }
 
     @Test
@@ -59,8 +63,8 @@ public class DynamoDBHandlerIT {
         sampleYearWeather.add(monthWeather);
         classUnderTest.saveWeatherData(sampleYearWeather);
         List<MonthWeather> result = classUnderTest.readDataForMonth(1);
-        MatcherAssert.assertThat(result, Matchers.hasSize(2));
-        MatcherAssert.assertThat(result, Matchers.hasItem(monthWeather));
+        MatcherAssert.assertThat(result, hasSize(2));
+        MatcherAssert.assertThat(result, hasItem(monthWeather));
     }
 
     @Test

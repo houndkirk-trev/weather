@@ -9,8 +9,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/client" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/db" />
+            <option value="$PROJECT_DIR$/dbloader" />
+            <option value="$PROJECT_DIR$/dbreader" />
             <option value="$PROJECT_DIR$/parser" />
           </set>
         </option>

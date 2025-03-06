@@ -1,7 +1,7 @@
 package com.github.houndkirk.weather.parser;
 
 import com.github.houndkirk.weather.parser.utils.TestUtils;
-import com.github.houndkirk.weather.parser.weather.MonthWeather;
+import com.github.houndkirk.weather.common.MonthWeather;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

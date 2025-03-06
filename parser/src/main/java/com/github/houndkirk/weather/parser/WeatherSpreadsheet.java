@@ -1,6 +1,6 @@
 package com.github.houndkirk.weather.parser;
 
-import com.github.houndkirk.weather.parser.weather.MonthWeather;
+import com.github.houndkirk.weather.common.MonthWeather;
 import com.github.miachm.sods.Range;
 import com.github.miachm.sods.Sheet;
 import com.github.miachm.sods.SpreadSheet;

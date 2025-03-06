@@ -1,6 +1,6 @@
 package com.github.houndkirk.weather.parser;
 
-import com.github.houndkirk.weather.parser.weather.MonthWeather;
+import com.github.houndkirk.weather.common.MonthWeather;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;

@@ -1,0 +1,75 @@
+# This AWS SAM template has been generated from your function's configuration. If
+# your function has one or more triggers, note that the AWS resources associated
+# with these triggers aren't fully specified in this template and include
+# placeholder values. Open this template in AWS Infrastructure Composer or your
+# favorite IDE and modify it to specify a serverless application with other AWS
+# resources.
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: An AWS Serverless Application Model template describing your function.
+Resources:
+  WeatherReader:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      SourceKMSKeyArn: ''
+      Description: Reader for data stored in the weather db
+      MemorySize: 128
+      Timeout: 59
+      Handler: com.github.houndkirk.weather.db.WeatherDBRequestHandler
+      Runtime: java21
+      Architectures:
+        - x86_64
+      EphemeralStorage:
+        Size: 512
+      EventInvokeConfig:
+        MaximumEventAgeInSeconds: 21600
+        MaximumRetryAttempts: 2
+      FunctionUrlConfig:
+        AuthType: AWS_IAM
+        InvokeMode: BUFFERED
+      PackageType: Zip
+      Policies:
+        - Statement:
+            - Sid: VisualEditor0
+              Effect: Allow
+              Action:
+                - dynamodb:CreateTable
+                - dynamodb:BatchWriteItem
+                - dynamodb:Scan
+                - dynamodb:BatchGetItem
+                - dynamodb:Query
+              Resource: arn:aws:dynamodb:*:253490770210:table/YearData
+            - Sid: VisualEditor0
+              Effect: Allow
+              Action:
+                - sqs:DeleteMessage
+                - sqs:ReceiveMessage
+                - sqs:GetQueueAttributes
+              Resource: arn:aws:sqs:eu-west-1:253490770210:weather
+            - Effect: Allow
+              Action:
+                - logs:CreateLogGroup
+              Resource: arn:aws:logs:eu-west-1:253490770210:*
+            - Effect: Allow
+              Action:
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+              Resource:
+                - arn:aws:logs:eu-west-1:253490770210:log-group:/aws/lambda/WeatherDB:*
+      RecursiveLoop: Terminate
+      SnapStart:
+        ApplyOn: None
+      Events:
+        Api2:
+          Type: Api
+          Properties:
+            Path: /weather/availableyears
+            Method: GET
+        Api3:
+          Type: Api
+          Properties:
+            Path: /weather
+            Method: GET
+      RuntimeManagementConfig:
+        UpdateRuntimeOn: Auto
