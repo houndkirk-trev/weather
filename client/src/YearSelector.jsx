@@ -11,6 +11,7 @@ import {
   Stack,
   Typography
 } from "@mui/material";
+import { fetchAvailableYears } from "./WeatherLoader";
 
 export const YearSelector = ({onError, onChange}) => {
   const [isLoading, setLoading] = useState(false);
@@ -18,28 +19,18 @@ export const YearSelector = ({onError, onChange}) => {
   const [selectedYears, setSelectedYears] = useState([]);
   const [isMenuOpen, setMenuOpen] = useState(false);
 
-  const handleResponse = (response) => {
-    if (response.ok) {
-      response.json()
-        .then((json) => JSON.parse(json || "[]"))
-        .then((parsed) => setYearsAvailable(parsed))
-        .catch(() => onError("Unable to parse available years!"));
-    } else {
-      response.json()
-        .then((json) => {
-          console.log("getAvailableYears error:", json);
-          const errMessage = (typeof json === 'object') ? (json.message || JSON.stringify(json)) : json;
-          onError(`Unable to fetch data for available years. Server responded with ${response.status}, message: ${errMessage}`)
-        });
-    }
+  const handleError = (message) => {
+    setLoading(false);
+    onError(message);
+  }
+  const yearsFetched = (years) => {
+    setLoading(false);
+    setYearsAvailable(years);
   }
 
   useEffect(() => {
     setLoading(true);
-    fetch('https://u406ruqhf4.execute-api.eu-west-1.amazonaws.com/WeatherYears/weather/availableyears')
-      .then((response) => handleResponse(response))
-      .catch((reason) => onError(`Query of available years failed: ${reason}`))
-      .finally(() => setLoading(false));
+    fetchAvailableYears(handleError, yearsFetched);
   }, []);
 
   const handleYearSelectionChange = (event) => {

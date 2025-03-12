@@ -20,10 +20,15 @@ export const YearGraph = ({years, onError}) => {
     setLoading(false);
   }
 
+  const handleError = (message) => {
+    setLoading(false);
+    onError(message);
+  }
+
   useEffect(() => {
     setLoading(true);
     if (!isEmpty(yearsCopy)) {
-      fetchWeatherForYears(yearsCopy, onError, updateWeatherData);
+      fetchWeatherForYears(yearsCopy, handleError, updateWeatherData);
     } else {
       updateWeatherData({});
     }
@@ -37,7 +42,7 @@ export const YearGraph = ({years, onError}) => {
   return isEmpty(years) ? "" :
     isLoading ? (<Box sx={{width: 800, height:300, backgroundColor: '#cccccc', paddingTop:10}}><CircularProgress /></Box>) : (
     <LineChart
-      width={800}
+      width={500}
       height={300}
       data={yearData}
     >
