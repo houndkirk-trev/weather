@@ -1,5 +1,5 @@
-import { FormControlLabel, FormLabel, Radio, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { FormControlLabel, FormLabel, Radio, Stack } from "@mui/material";
 
 export const ChartTypeSelector = ({onChartTypeChange, show}) => {
   const [chartType, setChartType] = useState('averageMax');

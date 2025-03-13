@@ -7,9 +7,7 @@ import {
   Input,
   InputLabel,
   MenuItem,
-  Select,
-  Stack,
-  Typography
+  Select
 } from "@mui/material";
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { fetchAvailableYears } from "./WeatherLoader";
