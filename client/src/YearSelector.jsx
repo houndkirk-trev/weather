@@ -11,6 +11,7 @@ import {
   Stack,
   Typography
 } from "@mui/material";
+import RefreshIcon from '@mui/icons-material/Refresh';
 import { fetchAvailableYears } from "./WeatherLoader";
 
 export const YearSelector = ({onError, onChange}) => {
@@ -18,6 +19,10 @@ export const YearSelector = ({onError, onChange}) => {
   const [yearsAvailable, setYearsAvailable] = useState([]);
   const [selectedYears, setSelectedYears] = useState([]);
   const [isMenuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    refreshYearData();
+  }, []);
 
   const handleError = (message) => {
     setLoading(false);
@@ -28,15 +33,16 @@ export const YearSelector = ({onError, onChange}) => {
     setYearsAvailable(years);
   }
 
-  useEffect(() => {
+  const refreshYearData = () => {
+    onError("");
     setLoading(true);
     fetchAvailableYears(handleError, yearsFetched);
-  }, []);
+  }
 
   const handleYearSelectionChange = (event) => {
     const years = event.target.value;
     setMenuOpen(false);
-    setSelectedYears(years);
+    setSelectedYears(years)
     onChange(years);
   }
 
@@ -44,14 +50,15 @@ export const YearSelector = ({onError, onChange}) => {
     setMenuOpen(!isMenuOpen);
   }
 
-  return isEmpty(yearsAvailable) ? "" :
-    isLoading ? (<Stack direction='row' sx={{marginLeft: '20px'}}>
-      <Typography variant='body' color='primary'>Loading available years</Typography>
-      <CircularProgress size='20px' sx={{marginLeft: '10px'}}/>
-    </Stack>) : (
-    <Box sx={{ display: 'flex', width: '50vw', gap: 1.0 }}>
+
+  if (isEmpty(yearsAvailable)) {
+    return "";
+  }
+
+  return (
+    <Box sx={{ display: 'flex', width: '50vw', gap: 1.0, marginBottom: 3 }}>
       <InputLabel id="select-year-label" sx={{marginTop: '10px', marginLeft: '1vw'}}>
-        Select Year(s)
+        Select Year(s):
       </InputLabel>
       <Select
         labelId="select-year-label"
@@ -75,6 +82,10 @@ export const YearSelector = ({onError, onChange}) => {
           <MenuItem key={i} value={year}>{year}</MenuItem>
         )}
       </Select>
+      <Box paddingTop='10px'>
+        {isLoading && <CircularProgress size="20px" />}
+        {!isLoading && <RefreshIcon onClick={refreshYearData} />}
+      </Box>
     </Box>
   );
 }

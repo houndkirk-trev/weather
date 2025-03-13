@@ -9,8 +9,15 @@ export const ErrorBox = ({message}) => {
   console.log("ErrorBox: message: ", message)
   return (
     <Stack direction='row' spacing={1}>
-      <ReportGmailerrorredIcon color='red'/>
-      <Typography id="error" textAlign="middle" variant="body" color="error">{message}</Typography>
+      <ReportGmailerrorredIcon color='error'/>
+      <Typography
+        id="error"
+        textAlign="middle"
+        variant="body"
+        color="error"
+        sx={{paddingTop: '3px'}}>
+        {message}
+      </Typography>
     </Stack>
   );
 }

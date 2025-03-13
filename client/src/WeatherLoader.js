@@ -25,7 +25,6 @@ const updateWeatherData = (data) => {
     'year': year,
     'data': data
   };
-  console.log("Processed weather data for year:", year);
   return data;
 }
 
@@ -42,7 +41,7 @@ export const fetchAvailableYears = (onError, onSuccess) => {
           .then((json) => {
             console.log("error fetching available years:", json);
             const errMessage = (typeof json === 'object') ? (json.message || JSON.stringify(json)) : json;
-            onError(`Unable to fetch data for available years. Server responded with ${response.status}, message: ${errMessage}`)
+            onError(`Unable to fetch list of available years. Server responded with ${response.status}, message: ${errMessage}`)
           });
       }
     })
